@@ -128,6 +128,14 @@ Mathematical rules check `target ≈ f(sources)` with relative tolerance; tempor
 DSI = (1 / K) · Σ_i (1 - |log p(x_syn,i) - L_real| / |L_real|)
 ```
 
+## Related work: TabKG
+
+TabLogicEval *measures* whether synthetic tabular data preserves inter-column logical relationships. Our follow-up work **[TabKG](https://github.com/Yunbo-max/TabKG)** addresses the gap that these metrics expose: it builds a validated Column Relationship Knowledge Graph (CR-KG) of the schema and uses it to guide a compression-and-reconstruction generation pipeline so that hierarchical, mathematical, and temporal relationships hold by construction in the generated data.
+
+> Yunbo Long, Liming Xu, Alexandra Brintrup. *Generating Logically Consistent Synthetic Supply Chain Data with LLM-Driven Knowledge Graph Reasoning.* International Journal of Production Research, 2026. [[code](https://github.com/Yunbo-max/TabKG)]
+
+The `reasoning/` modules in this repository (multi-LLM ensemble + data-driven validation) are the same components used by TabKG to construct its CR-KG; here they are reused to derive `G_k` and `D_{g,j}` automatically from column metadata.
+
 ## Citation
 
 ```bibtex
@@ -136,6 +144,13 @@ DSI = (1 / K) · Σ_i (1 - |log p(x_syn,i) - L_real| / |L_real|)
   author    = {Long, Yunbo and Xu, Liming and Brintrup, Alexandra},
   booktitle = {International Conference on Learning Representations (ICLR)},
   year      = {2025}
+}
+
+@article{long2026tabkg,
+  title   = {Generating Logically Consistent Synthetic Supply Chain Data with LLM-Driven Knowledge Graph Reasoning},
+  author  = {Long, Yunbo and Xu, Liming and Brintrup, Alexandra},
+  journal = {International Journal of Production Research},
+  year    = {2026}
 }
 ```
 
