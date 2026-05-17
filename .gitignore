@@ -5,7 +5,8 @@ __pycache__/
 .DS_Store
 .ipynb_checkpoints/
 
-# Local data / outputs
-data/
+# Local data / outputs (ignore CSV inputs; keep example descriptions)
+data/*.csv
+data/*.parquet
 results/
 *.log

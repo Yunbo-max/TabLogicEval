@@ -1,0 +1,41 @@
+payment_type: Type of transaction made.
+profit_per_order: Earnings per order placed.
+sales_per_customer: Total sales per customer.
+category_id: Product category code.
+category_name: Description of the product category.
+customer_city: City where the customer made the purchase.
+customer_country: Country where the customer made the purchase.
+customer_id: Customer ID.
+customer_segment: Customer segment (Consumer, Corporate, Home Office).
+customer_state: State where the customer's purchase store is registered.
+customer_zipcode: Customer zipcode.
+department_id: Department code of the store.
+department_name: Department name of the store.
+latitude: Latitude of the store location.
+longitude: Longitude of the store location.
+market: Delivery market (Africa, Europe, LATAM, Pacific Asia, USCA).
+order_city: Destination city of the order.
+order_country: Destination country of the order.
+order_customer_id: Customer order code.
+order_date: Date on which the order is placed.
+order_id: Order code.
+order_item_cardprod_id: Product code generated through the RFID reader.
+order_item_discount: Order item discount value.
+order_item_discount_rate: Order item discount rate (proportion).
+order_item_id: Order item code.
+order_item_product_price: Unit price of the product without discount.
+order_item_profit_ratio: Order item profit ratio.
+order_item_quantity: Number of products in the order line.
+sales: Value in sales (= order_item_product_price * order_item_quantity).
+order_item_total_amount: Total amount per order line after discount.
+order_profit_per_order: Profit per order.
+order_region: Region of the world where the order is delivered.
+order_state: State within the order region where the order is delivered.
+order_status: Order status (COMPLETE, PENDING, CLOSED, PENDING_PAYMENT, CANCELED, PROCESSING, SUSPECTED_FRAUD, ON_HOLD, PAYMENT_REVIEW).
+product_card_id: Product code.
+product_category_id: Product category code.
+product_name: Product name.
+product_price: Product price.
+shipping_date: Exact date and time the order is shipped (>= order_date).
+shipping_mode: Shipping mode (Standard Class, First Class, Second Class, Same Day).
+label: Target label indicating the outcome of the order (e.g., success or failure).
