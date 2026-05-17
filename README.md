@@ -2,6 +2,8 @@
 
 **Evaluating Inter-Column Logical Relationships in Synthetic Tabular Data Generation**
 
+> 🎉 **Accepted at the [ICLR 2025 Tiny Papers Track](https://iclr.cc/Conferences/2025).** This repository is the official implementation.
+
 <p align="center">
   <img src="assets/metrics.png" alt="HCS / MDI / DSI metrics overview" width="95%"/>
 </p>
@@ -145,7 +147,7 @@ The `reasoning/` modules in this repository (multi-LLM ensemble + data-driven va
 @inproceedings{long2025logicaltabular,
   title     = {Evaluating Inter-Column Logical Relationships in Synthetic Tabular Data Generation},
   author    = {Long, Yunbo and Xu, Liming and Brintrup, Alexandra},
-  booktitle = {International Conference on Learning Representations (ICLR)},
+  booktitle = {ICLR 2025 Tiny Papers Track},
   year      = {2025}
 }
 
