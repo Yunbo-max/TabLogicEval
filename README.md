@@ -128,9 +128,12 @@ Mathematical rules check `target ≈ f(sources)` with relative tolerance; tempor
 DSI = (1 / K) · Σ_i (1 - |log p(x_syn,i) - L_real| / |L_real|)
 ```
 
-## Related work: TabKG
+## Related work
 
-TabLogicEval *measures* whether synthetic tabular data preserves inter-column logical relationships. Our follow-up work **[TabKG](https://github.com/Yunbo-max/TabKG)** addresses the gap that these metrics expose: it builds a validated Column Relationship Knowledge Graph (CR-KG) of the schema and uses it to guide a compression-and-reconstruction generation pipeline so that hierarchical, mathematical, and temporal relationships hold by construction in the generated data.
+TabLogicEval *measures* whether synthetic tabular data preserves inter-column logical relationships. Two companion papers from the same group address the gap that these metrics expose:
+
+* **[LLM-TabLogic](https://arxiv.org/abs/2503.02161)** ([arXiv:2503.02161](https://arxiv.org/abs/2503.02161)) — first proposes preserving inter-column logical relationships in synthetic tabular data via prompt-guided latent diffusion.
+* **[TabKG](https://github.com/Yunbo-max/TabKG)** — the refined follow-up. Builds a validated Column Relationship Knowledge Graph (CR-KG) of the schema and uses it to guide a compression-and-reconstruction generation pipeline so that hierarchical, mathematical, and temporal relationships hold by construction in the generated data.
 
 > Yunbo Long, Liming Xu, Alexandra Brintrup. *Generating Logically Consistent Synthetic Supply Chain Data with LLM-Driven Knowledge Graph Reasoning.* International Journal of Production Research, 2026. [[code](https://github.com/Yunbo-max/TabKG)]
 
@@ -144,6 +147,16 @@ The `reasoning/` modules in this repository (multi-LLM ensemble + data-driven va
   author    = {Long, Yunbo and Xu, Liming and Brintrup, Alexandra},
   booktitle = {International Conference on Learning Representations (ICLR)},
   year      = {2025}
+}
+
+@misc{long2025llmtablogicpreservingintercolumnlogical,
+  title         = {LLM-TabLogic: Preserving Inter-Column Logical Relationships in Synthetic Tabular Data via Prompt-Guided Latent Diffusion},
+  author        = {Yunbo Long and Liming Xu and Alexandra Brintrup},
+  year          = {2025},
+  eprint        = {2503.02161},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2503.02161}
 }
 
 @article{long2026tabkg,
