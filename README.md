@@ -1,0 +1,130 @@
+# TabLogicEval
+
+**Evaluating Inter-Column Logical Relationships in Synthetic Tabular Data Generation**
+
+TabLogicEval implements three metrics for assessing how well a synthetic tabular dataset preserves the **inter-column logical relationships** of its real-data source:
+
+| Metric | What it measures |
+|---|---|
+| **HCS** — Hierarchical Consistency Score | Fraction of synthetic rows whose value-tuples over each hierarchy group (e.g. `city → state → country`) appear in the real data. |
+| **MDI** — Multivariate Dependency Index | Fraction of synthetic rows that satisfy mathematical (`total = qty × price`) and temporal (`order_date ≤ ship_date`) dependency rules. |
+| **DSI** — Distributional Similarity Index | GMM log-likelihood agreement between real and synthetic rows; captures non-linear dependencies that don't admit explicit rules. |
+
+The hierarchy groups `G_k` and dependency rules `D_{g,j}` required by HCS and MDI are not hand-specified — they are automatically extracted from the table's column metadata by a multi-LLM ensemble with majority voting and data-driven validation, then used to score any synthetic dataset over the same schema.
+
+## What's in the repo
+
+```
+TabLogicEval/
+├── evaluate.py             # end-to-end CLI: real.csv + syn.csv -> HCS / MDI / DSI
+├── identify.py             # LLM ensemble -> validated CR-KG -> (groups, rules)
+├── metrics/
+│   ├── hcs.py              # Hierarchical Consistency Score
+│   ├── mdi.py              # Multivariate Dependency Index (mathematical + temporal)
+│   └── dsi.py              # Distributional Similarity Index (GMM log-likelihood)
+├── reasoning/              # LLM-ensemble graph construction + data-driven validation
+│   ├── llm_ensemble.py
+│   ├── graph_validator.py
+│   └── prompts.py
+└── requirements.txt
+```
+
+## Install
+
+```bash
+git clone <repo-url> TabLogicEval
+cd TabLogicEval
+pip install -r requirements.txt
+```
+
+Python 3.10+.
+
+## Configure
+
+API keys live in `.env` at the repo root:
+
+```bash
+OPENAI_API_KEY=...
+DEEPSEEK_API_KEY=...
+ANTHROPIC_API_KEY=...
+SILICONFLOW_API_KEY=...
+```
+
+Only the providers you actually use need keys.
+
+## Usage
+
+```bash
+python evaluate.py \
+  --real data/real.csv \
+  --syn  data/synthetic_ctgan.csv \
+  --descriptions data/column_descriptions.txt \
+  --models "deepseek,qwen,minimax" \
+  --validation_threshold 0.90 \
+  --out results/ctgan_report.json
+```
+
+`--descriptions` accepts either a path to a text file or the descriptions string inline. The text should list every column with a one-line description, e.g.:
+
+```
+order_city: Destination city of the order
+order_state: Destination state
+order_country: Destination country
+order_date: Date the order is placed
+shipping_date: Date the order is shipped
+order_item_quantity: Number of products per order
+order_item_product_price: Unit price before discount
+sales: Value in sales (= quantity * price)
+...
+```
+
+The report contains:
+
+```json
+{
+  "scores": {"HCS": 0.71, "MDI": 0.59, "DSI": 0.68},
+  "hcs": { "per_group": [...], "groups": [...] },
+  "mdi": { "per_rule": [...], "skipped": [...] },
+  "dsi": { "n_components": 5, "columns": [...] },
+  "identification": { "candidate_stats": ..., "validated_stats": ... }
+}
+```
+
+## Metric definitions (paper)
+
+**HCS.** For each hierarchy group `G_k` and synthetic row `j`,
+
+```
+HCS = (1 / (M · N)) · Σ_{k,j} 1[ (x_{i,j})_{i∈G_k} ∈ C_k ]
+```
+
+where `C_k` is the set of distinct value-tuples observed over `G_k` in the real data.
+
+**MDI.** For each dependency rule `D_{g,j}` over a group `G_g`,
+
+```
+MDI = (1 / (M · N)) · Σ_{g,j} 1[ D_{g,j} holds in row j ]
+```
+
+Mathematical rules check `target ≈ f(sources)` with relative tolerance; temporal rules check `source ≤ target`.
+
+**DSI.** Fit a GMM on real numeric columns; let `L_real` be the average per-row log-likelihood. Then
+
+```
+DSI = (1 / K) · Σ_i (1 - |log p(x_syn,i) - L_real| / |L_real|)
+```
+
+## Citation
+
+```bibtex
+@inproceedings{long2025logicaltabular,
+  title     = {Evaluating Inter-Column Logical Relationships in Synthetic Tabular Data Generation},
+  author    = {Long, Yunbo and Xu, Liming and Brintrup, Alexandra},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025}
+}
+```
+
+## License
+
+MIT.
